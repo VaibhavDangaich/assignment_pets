@@ -1,20 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import styles from './bookings.module.css'
 
 export default function BookingsPage() {
-    const { data: session, status } = useSession()
+    const { user, isLoaded } = useUser()
     const router = useRouter()
     const [bookings, setBookings] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login')
+        if (isLoaded && !user) {
+            router.push('/sign-in')
             return
         }
 
@@ -30,10 +30,10 @@ export default function BookingsPage() {
             }
         }
 
-        if (session) {
+        if (user) {
             fetchBookings()
         }
-    }, [session, status, router])
+    }, [user, isLoaded, router])
 
     const formatDate = (dateString) => {
         const date = new Date(dateString)

@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { auth } from '@clerk/nextjs/server'
 import dbConnect from '@/lib/mongodb'
 import Booking from '@/models/Booking'
 import Event from '@/models/Event'
-import User from '@/models/User'
 
 export async function GET(request) {
     try {
-        const session = await getServerSession(authOptions)
+        const { userId } = await auth()
 
-        if (!session) {
+        if (!userId) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
@@ -19,7 +17,7 @@ export async function GET(request) {
 
         await dbConnect()
 
-        const bookings = await Booking.find({ userId: session.user.id })
+        const bookings = await Booking.find({ userId })
             .populate('eventId')
             .populate('serviceProviderId')
             .sort({ createdAt: -1 })
@@ -37,9 +35,9 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-        const session = await getServerSession(authOptions)
+        const { userId } = await auth()
 
-        if (!session) {
+        if (!userId) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
@@ -47,14 +45,6 @@ export async function POST(request) {
         }
 
         await dbConnect()
-
-        const user = await User.findById(session.user.id)
-        if (!user.isSubscribed) {
-            return NextResponse.json(
-                { error: 'Subscription required to make bookings' },
-                { status: 403 }
-            )
-        }
 
         const data = await request.json()
 
@@ -79,7 +69,7 @@ export async function POST(request) {
 
         const booking = await Booking.create({
             ...data,
-            userId: session.user.id
+            userId
         })
 
         return NextResponse.json(booking, { status: 201 })

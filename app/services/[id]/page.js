@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import styles from './service.module.css'
 
 export default function ServiceDetailPage() {
-    const { data: session } = useSession()
+    const { user, isLoaded } = useUser()
     const router = useRouter()
     const params = useParams()
     const [provider, setProvider] = useState(null)
@@ -67,13 +67,8 @@ export default function ServiceDetailPage() {
     }
 
     const handleBooking = async () => {
-        if (!session) {
-            router.push('/login')
-            return
-        }
-
-        if (!session.user.isSubscribed) {
-            router.push('/subscription')
+        if (!user) {
+            router.push('/sign-in')
             return
         }
 
@@ -312,15 +307,9 @@ export default function ServiceDetailPage() {
                                     {booking ? 'Booking...' : 'Confirm Booking'}
                                 </button>
 
-                                {!session && (
+                                {!user && (
                                     <p className={styles.loginPrompt}>
-                                        <Link href="/login">Sign in</Link> to book an appointment
-                                    </p>
-                                )}
-
-                                {session && !session.user.isSubscribed && (
-                                    <p className={styles.subscribePrompt}>
-                                        <Link href="/subscription">Subscribe</Link> to book with discounts
+                                        <Link href="/sign-in">Sign in</Link> to book an appointment
                                     </p>
                                 )}
                             </>

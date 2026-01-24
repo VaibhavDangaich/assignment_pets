@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/lib/auth'
+import { auth } from '@clerk/nextjs/server'
 import dbConnect from '@/lib/mongodb'
 import Subscription from '@/models/Subscription'
-import User from '@/models/User'
 
 const PLANS = {
     monthly: { price: 9.99, days: 30 },
@@ -12,9 +10,9 @@ const PLANS = {
 
 export async function GET(request) {
     try {
-        const session = await getServerSession(authOptions)
+        const { userId } = await auth()
 
-        if (!session) {
+        if (!userId) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
@@ -24,7 +22,7 @@ export async function GET(request) {
         await dbConnect()
 
         const subscription = await Subscription.findOne({
-            userId: session.user.id,
+            userId,
             isActive: true
         }).lean()
 
@@ -40,9 +38,9 @@ export async function GET(request) {
 
 export async function POST(request) {
     try {
-        const session = await getServerSession(authOptions)
+        const { userId } = await auth()
 
-        if (!session) {
+        if (!userId) {
             return NextResponse.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
@@ -61,7 +59,7 @@ export async function POST(request) {
         await dbConnect()
 
         await Subscription.updateMany(
-            { userId: session.user.id },
+            { userId },
             { isActive: false }
         )
 
@@ -70,18 +68,13 @@ export async function POST(request) {
         endDate.setDate(endDate.getDate() + PLANS[plan].days)
 
         const subscription = await Subscription.create({
-            userId: session.user.id,
+            userId,
             plan,
             price: PLANS[plan].price,
             startDate,
             endDate,
             isActive: true,
             paymentStatus: 'completed'
-        })
-
-        await User.findByIdAndUpdate(session.user.id, {
-            isSubscribed: true,
-            subscriptionId: subscription._id
         })
 
         return NextResponse.json({

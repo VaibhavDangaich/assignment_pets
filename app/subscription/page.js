@@ -1,12 +1,12 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation'
 import styles from './subscription.module.css'
 
 export default function SubscriptionPage() {
-    const { data: session, status, update } = useSession()
+    const { user, isLoaded } = useUser()
     const router = useRouter()
     const [subscription, setSubscription] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -45,8 +45,8 @@ export default function SubscriptionPage() {
     ]
 
     useEffect(() => {
-        if (status === 'unauthenticated') {
-            router.push('/login')
+        if (isLoaded && !user) {
+            router.push('/sign-in')
             return
         }
 
@@ -62,14 +62,14 @@ export default function SubscriptionPage() {
             }
         }
 
-        if (session) {
+        if (user) {
             fetchSubscription()
         }
-    }, [session, status, router])
+    }, [user, isLoaded, router])
 
     const handleSubscribe = async (planId) => {
-        if (!session) {
-            router.push('/login')
+        if (!user) {
+            router.push('/sign-in')
             return
         }
 
@@ -90,7 +90,6 @@ export default function SubscriptionPage() {
             }
 
             setSubscription(data.subscription)
-            await update({ isSubscribed: true })
             router.refresh()
         } catch (error) {
             console.error('Subscription error:', error)

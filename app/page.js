@@ -1,6 +1,6 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import EventCard from '@/components/EventCard'
@@ -9,7 +9,7 @@ import SubscriptionBanner from '@/components/SubscriptionBanner'
 import styles from './page.module.css'
 
 export default function Home() {
-  const { data: session } = useSession()
+  const { user, isLoaded } = useUser()
   const [events, setEvents] = useState([])
   const [services, setServices] = useState([])
   const [loading, setLoading] = useState(true)
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
       </section>
 
-      {(!session || !session.user.isSubscribed) && <SubscriptionBanner />}
+      {!user && <SubscriptionBanner />}
 
       <section className="section container">
         <div className="section-header">

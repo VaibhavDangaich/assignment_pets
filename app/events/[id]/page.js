@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useSession } from 'next-auth/react'
+import { useUser } from '@clerk/nextjs'
 import { useRouter, useParams } from 'next/navigation'
 import Link from 'next/link'
 import styles from './event.module.css'
 
 export default function EventDetailPage() {
-    const { data: session } = useSession()
+    const { user, isLoaded } = useUser()
     const router = useRouter()
     const params = useParams()
     const [event, setEvent] = useState(null)
@@ -60,13 +60,8 @@ export default function EventDetailPage() {
         : event?.price
 
     const handleBooking = async () => {
-        if (!session) {
-            router.push('/login')
-            return
-        }
-
-        if (!session.user.isSubscribed) {
-            router.push('/subscription')
+        if (!user) {
+            router.push('/sign-in')
             return
         }
 
@@ -231,15 +226,9 @@ export default function EventDetailPage() {
                             </button>
                         )}
 
-                        {!session && (
+                        {!user && (
                             <p className={styles.loginPrompt}>
-                                <Link href="/login">Sign in</Link> to book this event
-                            </p>
-                        )}
-
-                        {session && !session.user.isSubscribed && (
-                            <p className={styles.subscribePrompt}>
-                                <Link href="/subscription">Subscribe</Link> to book events with discounts
+                                <Link href="/sign-in">Sign in</Link> to book this event
                             </p>
                         )}
                     </div>
