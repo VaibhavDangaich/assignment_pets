@@ -1,0 +1,278 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+  transition: color 0.3s;
+}
+
+.backLink:hover {
+  color: var(--primary-light);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+}
+
+.main {
+  min-width: 0;
+}
+
+.hero {
+  position: relative;
+  margin-bottom: 32px;
+}
+
+.heroImage {
+  height: 320px;
+  border-radius: var(--radius-xl);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroIcon {
+  font-size: 100px;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+}
+
+.discountBadge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+}
+
+.content {
+  padding: 0 8px;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.type {
+  padding: 6px 14px;
+  background: rgba(99, 102, 241, 0.15);
+  border-radius: 50px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.provider {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 32px;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding: 24px;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.detailIcon {
+  font-size: 24px;
+}
+
+.detailLabel {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.detailValue {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.description h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.description p {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.bookingCard {
+  background: var(--gradient-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+}
+
+.priceSection {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.originalPrice {
+  display: block;
+  font-size: 16px;
+  color: var(--text-muted);
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
+
+.price {
+  font-size: 42px;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.perPerson {
+  display: block;
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.slotsInfo {
+  margin-bottom: 24px;
+}
+
+.slotsBar {
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.slotsProgress {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.slotsText {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.slotsLow {
+  color: var(--error);
+}
+
+.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: var(--error);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.successMessage {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--success);
+  padding: 20px;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-weight: 600;
+}
+
+.successMessage span {
+  display: block;
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.viewBookingsLink {
+  display: block;
+  margin-top: 12px;
+  color: var(--success);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.loginPrompt,
+.subscribePrompt {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 16px;
+}
+
+.loginPrompt a,
+.subscribePrompt a {
+  color: var(--primary-light);
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .heroImage {
+    height: 240px;
+  }
+}

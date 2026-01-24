@@ -1,0 +1,37 @@
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 0 20px;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.filterBtn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+.filterBtn.active {
+  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  border-color: transparent;
+  color: white;
+}
+
+.filterBtn span {
+  font-size: 18px;
+}
