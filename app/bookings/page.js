@@ -54,7 +54,7 @@ export default function BookingsPage() {
         return classes[status] || ''
     }
 
-    if (status === 'loading' || loading) {
+    if (!isLoaded || loading) {
         return (
             <div className="loading-container" style={{ minHeight: '50vh' }}>
                 <div className="spinner"></div>
